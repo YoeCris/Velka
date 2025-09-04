@@ -1,0 +1,7 @@
+<!-- Ejemplo de imagen SVG como placeholder -->
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" rx="8" fill="#2563eb"/>
+    <path d="M32 12C19.85 12 12 19.85 12 32C12 44.15 19.85 52 32 52C44.15 52 52 44.15 52 32C52 19.85 44.15 12 32 12Z" fill="white"/>
+    <path d="M32 16L35.09 25.26L44 22L40.74 31.26L50 34L40.74 36.74L44 46L35.09 42.74L32 52L28.91 42.74L20 46L23.26 36.74L14 34L23.26 31.26L20 22L28.91 25.26L32 16Z" fill="#2563eb"/>
+    <text x="32" y="38" font-family="Arial, sans-serif" font-size="8" font-weight="bold" text-anchor="middle" fill="white">JTC</text>
+</svg>

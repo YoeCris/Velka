@@ -9,145 +9,102 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'dni',
-        'apellido_paterno',
-        'apellido_materno',
-        'fecha_nacimiento',
-        'genero',
-        'telefono',
-        'condicion',
-        'sector',
-        'fecha_ingreso_comunidad',
-        'observaciones',
-        'rol',
-        'activo',
-        'direccion',
-        'ocupacion',
-        'estado_civil',
+        'role',
+        'sector_id'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'fecha_nacimiento' => 'date',
-            'fecha_ingreso_comunidad' => 'date',
-            'activo' => 'boolean',
         ];
     }
 
-    /**
-     * Scope para comuneros activos
-     */
-    public function scopeActivos($query)
+    // Relaciones
+    public function sector()
     {
-        return $query->where('activo', true);
+        return $this->belongsTo(Sector::class);
     }
 
-    /**
-     * Scope para comuneros calificados
-     */
-    public function scopeCalificados($query)
+    public function reports()
     {
-        return $query->where('condicion', 'calificado');
+        return $this->hasMany(Report::class);
     }
 
-    /**
-     * Scope para comuneros no calificados
-     */
-    public function scopeNoCalificados($query)
+    // Scopes
+    public function scopeSuperadmin($query)
     {
-        return $query->where('condicion', 'no_calificado');
+        return $query->where('role', 'superadmin');
     }
 
-    /**
-     * Scope para administradores
-     */
-    public function scopeAdministradores($query)
+    public function scopeAdminSector($query)
     {
-        return $query->where('rol', 'administrador');
+        return $query->where('role', 'admin_sector');
     }
 
-    /**
-     * Scope para comuneros por sector
-     */
-    public function scopeDelSector($query, $sector)
+    public function scopeDelSector($query, $sectorId)
     {
-        return $query->where('sector', $sector);
+        return $query->where('sector_id', $sectorId);
     }
 
-    /**
-     * Verificar si el usuario es administrador
-     */
-    public function esAdministrador(): bool
+    // Métodos de verificación de roles
+    public function isSuperadmin(): bool
     {
-        return $this->rol === 'administrador';
+        return $this->role === 'superadmin';
     }
 
-    /**
-     * Verificar si el comunero está calificado
-     */
-    public function esCalificado(): bool
+    public function isAdminSector(): bool
     {
-        return $this->condicion === 'calificado';
+        return $this->role === 'admin_sector';
     }
 
-    /**
-     * Obtener nombre completo
-     */
-    public function getNombreCompletoAttribute(): string
+    public function canAccessSector($sectorId): bool
     {
-        return trim($this->name . ' ' . $this->apellido_paterno . ' ' . $this->apellido_materno);
+        return $this->isSuperadmin() || $this->sector_id == $sectorId;
     }
 
-    /**
-     * Obtener descripción del sector
-     */
-    public function getDescripcionSectorAttribute(): string
+    public function canModifyData(): bool
     {
-        $sectores = [
-            'sector_1' => 'Sector 1 - Centro',
-            'sector_2' => 'Sector 2 - Norte',
-            'sector_3' => 'Sector 3 - Sur',
-            'sector_4' => 'Sector 4 - Este',
+        return $this->isSuperadmin();
+    }
+
+    public function canManageReuniones(): bool
+    {
+        return $this->isSuperadmin();
+    }
+
+    public function canRegisterAsistencias(): bool
+    {
+        return $this->isSuperadmin();
+    }
+
+    public function canUpdateCondiciones(): bool
+    {
+        return $this->isSuperadmin();
+    }
+
+    public function getNombreConRolAttribute()
+    {
+        $roles = [
+            'superadmin' => 'Superadministrador',
+            'admin_sector' => 'Administrador de Sector'
         ];
 
-        return $sectores[$this->sector] ?? 'Sector no definido';
-    }
-
-    /**
-     * Obtener descripción de la condición
-     */
-    public function getDescripcionCondicionAttribute(): string
-    {
-        return $this->condicion === 'calificado' ? 'Comunero Calificado' : 'Comunero No Calificado';
+        $rolNombre = $roles[$this->role] ?? $this->role;
+        $sectorNombre = $this->sector ? " - {$this->sector->nombre}" : '';
+        
+        return "{$this->name} ({$rolNombre}{$sectorNombre})";
     }
 }
