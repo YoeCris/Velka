@@ -1,61 +1,195 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Gestión Comunal - Comunidad Jatucachi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema desarrollado en Laravel 12 con Livewire 3 para la gestión integral de la Comunidad Jatucachi, incluyendo padrón de comuneros, reuniones, asistencias y reportes.
 
-## About Laravel
+## 🏗️ Stack Tecnológico
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework:** Laravel 12
+- **Frontend:** Livewire 3 (con Volt)
+- **Autenticación:** Laravel Breeze
+- **Estilos:** TailwindCSS
+- **Base de datos:** SQLite/MySQL
+- **PDF:** DomPDF / Browsershot
+- **Auditoría:** Spatie Activity Log
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🎯 Características Principales
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👥 Gestión de Usuarios y Roles
+- **Superadministrador:** Acceso completo al sistema
+- **Administrador de Sector:** Acceso limitado a su sector
 
-## Learning Laravel
+### 📋 Padrón Comunal
+- CRUD completo de comuneros (solo superadmin)
+- Filtros avanzados por DNI, nombre, sector, condición y estado
+- Soft delete para preservar historial
+- Gestión de cargos con historial completo
+- Exportación a PDF con marca de agua
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🏛️ Sectores de la Comunidad
+- Central
+- Catahui  
+- Jayuyapu
+- Titire
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📅 Gestión de Reuniones
+- Solo reuniones generales (no sectoriales)
+- Tipos: Ordinaria y Extraordinaria
+- Control de asistencias con entrada y salida separadas
+- Umbral de tardanza configurable (40 minutos por defecto)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📊 Sistema de Asistencias
+- Registro por DNI (preparado para futuro escáner PDF417)
+- Sistema de puntuación:
+  - **Entrada a tiempo:** 0.50 puntos
+  - **Entrada tardía:** 0.25 puntos
+  - **Falta entrada:** 0.00 puntos
+  - **Salida:** 0.50 puntos adicionales
+  - **Sin salida:** 0.00 puntos adicionales
 
-## Laravel Sponsors
+### 🎯 Condiciones de Comuneros
+- **Calificado:** ≥ 50% asistencia
+- **No Calificado:** < 40% asistencia  
+- **Sin cambio:** Entre 40% y 50% (mantiene condición actual)
+- Actualización individual y masiva por períodos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 📈 Dashboard y Reportes
+- Métricas generales y por sector
+- Gráficos de tendencia de asistencia
+- Exportación de reportes en PDF
+- Registro de actividad completo
 
-### Premium Partners
+## 🚀 Instalación y Configuración
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Prerrequisitos
+```bash
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL/SQLite
+```
 
-## Contributing
+### Pasos de Instalación
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clonar y configurar el proyecto:**
+```bash
+cd /ruta/del/proyecto/community
+composer install
+npm install && npm run build
+```
 
-## Code of Conduct
+2. **Configurar base de datos:**
+```bash
+# Copiar archivo de entorno
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Generar clave de aplicación
+php artisan key:generate
 
-## Security Vulnerabilities
+# Configurar en .env:
+DB_CONNECTION=mysql
+DB_DATABASE=comunidad_jatucachi
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Ejecutar migraciones y seeders:**
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-## License
+4. **Crear directorio de reportes:**
+```bash
+php artisan storage:link
+mkdir -p storage/app/public/reportes_jatucachi
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 👤 Usuarios por Defecto
+
+Después de ejecutar los seeders:
+
+**Superadministrador:**
+- Email: admin@jatucachi.com
+- Password: admin123
+
+**Administradores de Sector:**
+- Central: admin.central@jatucachi.com
+- Catahui: admin.catahui@jatucachi.com  
+- Jayuyapu: admin.jayuyapu@jatucachi.com
+- Titire: admin.titire@jatucachi.com
+- Password: admin123 (todos)
+
+## 🏃‍♂️ Uso del Sistema
+
+### Para Superadministradores:
+- ✅ Gestión completa del padrón comunal
+- ✅ Creación y administración de reuniones
+- ✅ Registro de asistencias
+- ✅ Actualización masiva de condiciones
+- ✅ Acceso a todos los reportes y auditoría
+- ✅ Visualización de todos los sectores
+
+
+## 🔧 Comandos Útiles
+
+```bash
+# Ejecutar migraciones
+php artisan migrate
+
+# Refrescar datos de prueba
+php artisan migrate:refresh --seed
+
+# Limpiar caché
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+
+# Generar nuevos componentes Livewire
+php artisan make:livewire NombreComponente
+```
+
+## 📋 Funcionalidades Pendientes
+
+- [ ] Implementación de escáner PDF417 para DNI peruano
+- [ ] Gráficos avanzados con Chart.js/Browsershot
+- [ ] Notificaciones automáticas
+- [ ] Exportación de asistencias en Excel
+- [ ] Dashboard responsive mejorado
+- [ ] Tests automatizados completos
+
+## 🐛 Troubleshooting
+
+### Problemas Comunes:
+
+1. **Error de permisos en storage:**
+```bash
+sudo chown -R www-data:www-data storage/
+sudo chmod -R 775 storage/
+```
+
+2. **PDFs no se generan:**
+```bash
+# Verificar que existe el directorio
+mkdir -p storage/app/public/reportes_jatucachi
+chmod 775 storage/app/public/reportes_jatucachi
+```
+
+3. **Middlewares no funcionan:**
+```bash
+php artisan config:clear
+php artisan route:clear
+```
+
+## 🤝 Contribución
+
+Este sistema fue desarrollado específicamente para la Comunidad Jatucachi siguiendo sus requerimientos y estatutos internos.
+
+## 📄 Licencia
+
+Sistema propietario desarrollado para la Comunidad Jatucachi.
+
+---
+
+**Versión:** 1.0.0  
+**Fecha:** Enero 2025  
+**Desarrollado para:** Comunidad Jatucachi
