@@ -33,18 +33,18 @@
                                 </svg>
                             </div>
                             <div class="ml-4 flex-1">
-                                <p class="text-lg font-medium text-gray-500">Total Comuneros</p>
+                                <p class="text-2xl font-medium text-gray-500">Total Comuneros</p>
                                 <p class="text-3xl font-bold text-gray-900 mt-1 counter" data-target="{{ $estadisticasGenerales['total_comuneros'] }}">0</p>
                             </div>
                         </div>
                         <!-- Barra de progreso animada -->
                         <div class="mt-4 bg-gray-50 rounded-lg p-3">
-                            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <div class="flex justify-between text-2xl text-gray-600 mb-2">
                                 <span>Progreso del padrón</span>
                                 <span>100%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full progress-bar" data-width="100" style="width: 0%"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-6">
+                                <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-6 rounded-full progress-bar" data-width="100" style="width: 0%"></div>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4 flex-1">
-                                <p class="text-lg font-medium text-gray-500">Comuneros Calificados</p>
+                                <p class="text-2xl font-medium text-gray-500">Comuneros Calificados</p>
                                 <p class="text-3xl font-bold text-gray-900 mt-1 counter" data-target="{{ $estadisticasGenerales['comuneros_calificados'] }}">0</p>
                             </div>
                         </div>
@@ -68,8 +68,8 @@
                         <div class="mt-4 bg-gray-50 rounded-lg p-3">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <div class="text-sm text-gray-600 mb-1">% de Calificados</div>
-                                    <div class="text-lg font-bold text-emerald-600">
+                                    <div class="text-2xl text-gray-600 mb-1">% de Calificados</div>
+                                    <div class="text-2xl font-bold text-emerald-600">
                                         @php
                                             $total = $estadisticasGenerales['total_comuneros'];
                                             $calificados = $estadisticasGenerales['comuneros_calificados'];
@@ -78,7 +78,7 @@
                                         {{ $porcentaje }}%
                                     </div>
                                 </div>
-                                <div class="w-12 h-12">
+                                <div class="w-20 h-20">
                                     <canvas id="chartCalificados"></canvas>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4 flex-1">
-                                <p class="text-lg font-medium text-gray-500">Comuneros No Calificados</p>
+                                <p class="text-2xl font-medium text-gray-500">Comuneros No Calificados</p>
                                 <p class="text-3xl font-bold text-gray-900 mt-1 counter" data-target="{{ $estadisticasGenerales['comuneros_no_calificados'] }}">0</p>
                             </div>
                         </div>
@@ -104,8 +104,8 @@
                         <div class="mt-4 bg-gray-50 rounded-lg p-3">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <div class="text-sm text-gray-600 mb-1">% No Calificados</div>
-                                    <div class="text-lg font-bold text-blue-600">
+                                    <div class="text-2xl text-gray-600 mb-1">% No Calificados</div>
+                                    <div class="text-2xl font-bold text-blue-600">
                                         @php
                                             $total = $estadisticasGenerales['total_comuneros'];
                                             $noCalificados = $estadisticasGenerales['comuneros_no_calificados'];
@@ -114,7 +114,7 @@
                                         {{ $porcentajeNo }}%
                                     </div>
                                 </div>
-                                <div class="w-12 h-12">
+                                <div class="w-20 h-20">
                                     <canvas id="chartNoCalificados"></canvas>
                                 </div>
                             </div>
@@ -127,12 +127,12 @@
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="ml-4 flex-1">
-                                <p class="text-xl font-bold text-gray-900 mt-1">Distribución por Sectores</p>
+                                <p class="text-2xl font-bold text-gray-500 mt-1">Distribución por Sectores</p>
                             </div>
                         </div>
                         <!-- Gráfico que ocupa todo el ancho -->
                         <div class="mt-4 bg-gray-50 rounded-lg p-3">
-                            <canvas id="chartProporcionSectores" height="100"></canvas>
+                            <canvas id="chartProporcionSectores" height="120"></canvas>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
             <!-- Distribución de Comuneros por Sector - Cards con donut -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
                 <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Distribución de Comuneros</h3>
+                    <h3 class="text-3xl font-semibold text-gray-900 mb-6">Distribución de Comuneros</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         @foreach($estadisticasPorSector as $s)
                             @php
@@ -163,8 +163,8 @@
                             @endphp
                             <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
                                 <div class="flex items-center justify-between mb-2">
-                                    <h4 class="font-semibold text-gray-900 truncate">{{ $sector }}</h4>
-                                    <span class="text-lg text-gray-500">{{ $total }} total</span>
+                                    <h4 class="text-xl font-semibold text-gray-900 truncate">{{ $sector }}</h4>
+                                    <span class="text-xl text-gray-500">{{ $total }} total</span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <!-- Donut mini -->
@@ -172,17 +172,17 @@
                                         <canvas id="donut-dist-{{ $slug }}"></canvas>
                                     </div>
                                     <!-- Etiquetas compactas -->
-                                    <div class="flex-1 space-y-2 text-lg text-gray-700">
+                                    <div class="flex-1 space-y-2 text-xl text-gray-700">
                                         <div class="flex items-center justify-between">
                                             <span class="inline-flex items-center gap-1">
-                                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                                <span class="w-4 h-4 bg-green-500 rounded-full"></span>
                                                 Calificados
                                             </span>
                                             <span class="font-semibold text-green-600">{{ $pCal }}% ({{ $cal }})</span>
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <span class="inline-flex items-center gap-1">
-                                                <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                                <span class="w-4 h-4 bg-blue-600 rounded-full"></span>
                                                 No calificados
                                             </span>
                                             <span class="font-semibold text-blue-600">{{ $pNo }}% ({{ $nocal }})</span>
@@ -204,8 +204,8 @@
                 <div class="p-6">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
                         <div>
-                            <h3 class="text-xl font-semibold text-gray-900">Análisis de Asistencia por Sector</h3>
-                            <p class="text-sm text-gray-500 mt-1">
+                            <h3 class="text-3xl font-semibold text-gray-900">Análisis de Asistencia por Sector</h3>
+                            <p class="text-2xl text-gray-500 mt-1">
                                 @if($selectedReunion)
                                     @php
                                         $reunion = $reunionesDisponibles->find($selectedReunion);
@@ -218,9 +218,9 @@
                         </div>
                         <!-- Filtro de Reuniones -->
                         <div class="flex items-center gap-2">
-                            <label for="reunion-filter" class="text-sm font-medium text-gray-700">Filtrar por:</label>
+                            <label for="reunion-filter" class="text-2xl font-medium text-gray-700">Filtrar por:</label>
                             <select wire:model.live="selectedReunion" id="reunion-filter" 
-                                    class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white min-w-[200px]"
+                                    class="px-3 py-2 border border-gray-300 rounded-lg text-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white min-w-[200px]"
                             >
                                 <option value="">General</option>
                                 @foreach($reunionesDisponibles as $reunion)
@@ -387,8 +387,8 @@
 
                 const {x, y} = meta.data[0];
                 ctx.save();
-                ctx.font = (options?.fontSize || 18) + 'px ' + (Chart.defaults.font.family || 'sans-serif');
-                ctx.fillStyle = options?.color || '#111827'; // Gray 900
+                ctx.font = (options?.fontSize || 20) + 'px ' + (Chart.defaults.font.family || 'sans-serif');
+                ctx.fillStyle = options?.color || '#0e121aff'; // Gray 900
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(pct + '%', x, y);
@@ -444,7 +444,7 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
-                            cutout: '70%',
+                            cutout: '60%',
                             plugins: {
                                 legend: { display: false },
                                 tooltip: { enabled: false }
@@ -479,7 +479,7 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
-                            cutout: '70%',
+                            cutout: '60%',
                             plugins: {
                                 legend: { display: false },
                                 tooltip: { enabled: false }
@@ -633,7 +633,7 @@
                         }]
                     },
                     options: {
-                        cutout: '72%',
+                        cutout: '65%',
                         plugins: {
                             legend: { display: false },
                             tooltip: {
@@ -641,7 +641,7 @@
                                 titleFont: { size: 12 }
                             },
                             doughnutCenterText: {
-                                fontSize: 30,
+                                fontSize: 25,
                                 color: '#111827'
                             }
                         }
@@ -773,4 +773,26 @@
             });
         });
     </script>
+    <style>
+    /* ==== Efecto de brillo para la barra de progreso ==== */
+    .progress-bar {
+    position: relative;
+    overflow: hidden;
+    }
+
+    .progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+    100% { left: 100%; }
+    }
+    </style>
 </div>
