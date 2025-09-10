@@ -59,12 +59,12 @@ class Index extends Component
     public function rules()
     {
         $rules = [
-            'form.dni' => 'required|string|size:8|unique:comuneros,dni' . ($this->comuneroId ? ",{$this->comuneroId}" : ''),
+            'form.dni' => 'required|digits:8|unique:comuneros,dni' . ($this->comuneroId ? ",{$this->comuneroId}" : ''),
             'form.nombres' => 'required|string|max:100',
             'form.apellidos' => 'required|string|max:100',
             'form.genero' => 'required|in:masculino,femenino',
             'form.fecha_nacimiento' => 'required|date|before:today',
-            'form.telefono' => 'nullable|string|max:20',
+            'form.telefono' => 'nullable|digits:9|regex:/^9\d{8}$/', 
             'form.direccion' => 'nullable|string',
             'form.estado_civil' => 'required|in:soltero,casado,conviviente,divorciado,viudo',
             'form.condicion' => 'required|in:calificado,no_calificado',
@@ -113,52 +113,54 @@ class Index extends Component
 
     public function editarComunero($id)
     {
-        $this->authorize('update', Comunero::findOrFail($id));
-        
-        $comunero = Comunero::findOrFail($id);
+        $comunero = Comunero::findOrFail($id); // 🔹 Solo una consulta
+        $this->authorize('update', $comunero);
+
         $this->comuneroId = $id;
         $this->form = [
             'dni' => $comunero->dni,
             'nombres' => $comunero->nombres,
             'apellidos' => $comunero->apellidos,
             'genero' => $comunero->genero,
-            'fecha_nacimiento' => $comunero->fecha_nacimiento->format('Y-m-d'),
+            'fecha_nacimiento' => optional($comunero->fecha_nacimiento)->format('Y-m-d'),
             'telefono' => $comunero->telefono,
             'direccion' => $comunero->direccion,
             'estado_civil' => $comunero->estado_civil,
             'condicion' => $comunero->condicion,
             'sector_id' => $comunero->sector_id,
-            'fecha_ingreso' => $comunero->fecha_ingreso->format('Y-m-d'),
+            'fecha_ingreso' => optional($comunero->fecha_ingreso)->format('Y-m-d'),
             'observaciones' => $comunero->observaciones,
-            'activo' => $comunero->activo
+            'activo' => $comunero->activo,
         ];
+
         $this->showModal = true;
     }
 
     public function guardarComunero()
     {
         if ($this->comuneroId) {
-            $this->authorize('update', Comunero::findOrFail($this->comuneroId));
+            $comunero = Comunero::findOrFail($this->comuneroId); // 🔹 Solo una consulta
+            $this->authorize('update', $comunero);
         } else {
             $this->authorize('create', Comunero::class);
+            $comunero = new Comunero(); // 🔹 Preparamos objeto vacío
         }
 
         $this->validate();
 
         if ($this->comuneroId) {
-            // Actualizar
-            $comunero = Comunero::findOrFail($this->comuneroId);
+            // 🔹 Actualizar
             $comunero->update($this->form);
-            
             session()->flash('message', 'Comunero actualizado exitosamente.');
         } else {
-            // Crear
-            Comunero::create($this->form);
+            // 🔹 Crear
+            $comunero->fill($this->form)->save();
             session()->flash('message', 'Comunero creado exitosamente.');
         }
 
         $this->cerrarModal();
     }
+
 
     public function confirmarEliminacion($id)
     {
