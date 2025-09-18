@@ -66,79 +66,6 @@
                         </div>
                     </div>
 
-                    <!-- User Menu Mejorado -->
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        <div class="relative">
-                            <button class="flex items-center px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                    onclick="toggleDropdown()"
-                                    id="user-menu-button"
-                            >
-                                <!-- Avatar -->
-                                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center mr-3">
-                                    <span class="text-sm font-medium text-white">
-                                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                                    </span>
-                                </div>
-                                
-                                <!-- User Info -->
-                                <div class="text-left mr-3">
-                                    <div class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</div>
-                                    <div class="text-xs text-gray-500">
-                                        @if(Auth::user()->isSuperadmin())
-                                            Administrador Principal
-                                        @else
-                                            Admin {{ Auth::user()->sector->nombre ?? 'Sector' }}
-                                        @endif
-                                    </div>
-                                </div>
-                                
-                                <!-- Dropdown Arrow -->
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </button>
-
-                            <!-- Dropdown Menu Mejorado -->
-                            <div id="dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
-                                <!-- User Info Header -->
-                                <div class="px-4 py-3 border-b border-gray-200">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                                            <span class="text-sm font-bold text-white">
-                                                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                                            </span>
-                                        </div>
-                                        <div class="ml-3">
-                                            <div class="font-medium text-gray-900">{{ Auth::user()->name }}</div>
-                                            <div class="text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                                            <div class="text-xs text-blue-600">
-                                                @if(Auth::user()->isSuperadmin())
-                                                    🛡️ Administrador Principal
-                                                @else
-                                                    📍 Admin Sector {{ Auth::user()->sector->nombre ?? '' }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Menu Items -->
-                                <div class="py-1">
-                                    <!-- Cerrar Sesión -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50">
-                                            <svg class="w-4 h-4 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                            </svg>
-                                            Cerrar Sesión
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Mobile menu button -->
                     <div class="-mr-2 flex items-center sm:hidden">
                         <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
@@ -154,56 +81,28 @@
             <!-- Mobile Navigation Menu -->
             <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-gray-200">
                 <div class="pt-2 pb-3 space-y-1">
-                    <a href="{{ route('dashboard') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('dashboard') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-base font-medium">
+                    <a href="{{ route('dashboard') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('dashboard') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
                         Dashboard
                     </a>
-                    <a href="{{ route('comuneros.index') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('comuneros.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-base font-medium">
+                    <a href="{{ route('comuneros.index') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('comuneros.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
                         Padrón
                     </a>
                     @if(auth()->user()->isSuperadmin())
-                        <a href="{{ route('reuniones.index') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('reuniones.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-base font-medium">
+                        <a href="{{ route('reuniones.index') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('reuniones.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
                             Reuniones
                         </a>
                     @endif
-                    <a href="{{ route('reportes.padron') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('reportes.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-base font-medium">
+                    <a href="{{ route('reportes.padron') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('reportes.*') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
                         Reportes
                     </a>
-                    <a href="{{ route('profile') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('profile') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-base font-medium">
+                    @if(auth()->user()->isSuperadmin())
+                        <a href="{{ route('condicion-masiva') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('condicion-masiva') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
+                            Condición Masiva
+                        </a>
+                    @endif
+                    <a href="{{ route('profile') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('profile') ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300' }} text-lg font-medium">
                         Perfil
                     </a>
-                </div>
-
-                <!-- Mobile user menu -->
-                <div class="pt-4 pb-1 border-t border-gray-200">
-                    <div class="px-4 flex items-center">
-                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                            <span class="text-sm font-bold text-white">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                            </span>
-                        </div>
-                        <div class="ml-3">
-                            <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                            <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                            <div class="text-xs text-blue-600">
-                                @if(Auth::user()->isSuperadmin())
-                                    🛡️ Administrador Principal
-                                @else
-                                    📍 Admin {{ Auth::user()->sector->nombre ?? 'Sector' }}
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 space-y-1">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="flex items-center w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 hover:border-red-300">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 713-3h4a3 3 0 013 3v1"/>
-                                </svg>
-                                Cerrar Sesión
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </nav>
@@ -241,26 +140,9 @@
     </div>
 
     <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdown');
-            dropdown.classList.toggle('hidden');
-        }
-
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
-
-        // Cerrar dropdown al hacer clic fuera
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('dropdown');
-            const button = document.getElementById('user-menu-button');
-            
-            if (!dropdown.classList.contains('hidden') && 
-                !dropdown.contains(event.target) && 
-                !button.contains(event.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
 
         // Cerrar mobile menu al hacer clic fuera
         document.addEventListener('click', function(event) {
