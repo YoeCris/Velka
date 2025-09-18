@@ -24,6 +24,11 @@ class Index extends Component
     public $showModal = false;
     public $comuneroId = null;
 
+    // Modal de confirmación para eliminar
+    public $showDeleteModal = false;
+    public $comuneroToDelete = null;
+    public $comuneroToDeleteName = '';
+
     // Form data
     public $form = [
         'dni' => '',
@@ -160,26 +165,58 @@ class Index extends Component
         $this->cerrarModal();
     }
 
+    /**
+     * Preparar la confirmación de eliminación
+     */
     public function confirmarEliminacion($id)
     {
         $this->authorize('delete', Comunero::findOrFail($id));
         
-        $this->dispatch('confirmar-eliminacion', [
-            'tipo' => 'comunero',
-            'id' => $id,
-            'mensaje' => 'Esta acción eliminará al comunero del sistema. ¿Está seguro?'
-        ]);
+        $comunero = Comunero::findOrFail($id);
+        $this->comuneroToDelete = $id;
+        $this->comuneroToDeleteName = $comunero->nombre_completo;
+        $this->showDeleteModal = true;
     }
 
-    public function eliminarComunero($id)
+    /**
+     * Eliminar el comunero después de la confirmación
+     */
+    public function eliminarComunero()
     {
-        $this->authorize('delete', Comunero::findOrFail($id));
+        if (!$this->comuneroToDelete) {
+            return;
+        }
+
+        $this->authorize('delete', Comunero::findOrFail($this->comuneroToDelete));
         
-        $comunero = Comunero::findOrFail($id);
-        $comunero->delete(); // Soft delete
-        
-        session()->flash('message', 'Comunero eliminado exitosamente.');
-        $this->dispatch('comuneroEliminado');
+        try {
+            $comunero = Comunero::findOrFail($this->comuneroToDelete);
+            $nombreComunero = $comunero->nombre_completo;
+            
+            $comunero->delete(); // Soft delete
+            
+            // Limpiar variables del modal
+            $this->comuneroToDelete = null;
+            $this->comuneroToDeleteName = '';
+            $this->showDeleteModal = false;
+            
+            session()->flash('message', "Comunero {$nombreComunero} eliminado exitosamente.");
+            $this->dispatch('comuneroEliminado');
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al eliminar el comunero. Intente nuevamente.');
+            $this->cerrarModalEliminar();
+        }
+    }
+
+    /**
+     * Cerrar modal de confirmación de eliminación
+     */
+    public function cerrarModalEliminar()
+    {
+        $this->showDeleteModal = false;
+        $this->comuneroToDelete = null;
+        $this->comuneroToDeleteName = '';
     }
 
     public function exportarPDF()
